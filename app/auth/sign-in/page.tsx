@@ -21,7 +21,7 @@ export default function SignIn() {
                     <label htmlFor="" className="text-[#131313]/60 text-sm">Email</label>
                     <div className="relative">
                         <Image src="/assets/letter.png" alt="letter" width={20} height={20} className="absolute left-2 top-[57%] -translate-y-1/2" />
-                        <input type="email" placeholder="Input your email" className="border border-primary/25 rounded-lg p-2 mt-2 focus:border-[#131313] focus:ring-1 focus:ring-[#131313]/10 outline-none transition-all duration-300 text-md text-black pl-8 placeholder:text-black/35 w-full" />
+                        <input type="email" placeholder="Input your email" className="input-field border-primary/25 pl-8" />
                     </div>
                 </div>
 
@@ -30,7 +30,7 @@ export default function SignIn() {
                     <div className="relative">
                         <Image src="/assets/Lock Keyhole.png" alt="lock" width={20} height={20} className="absolute left-2 top-[57%] -translate-y-1/2" />
                         <Image src={showPassword ? "/assets/Eye Closed.png" : "/assets/eye.png"} alt="eye" width={20} height={20} onClick={() => { setShowPassword(!showPassword) }} className="absolute right-2 top-[57%] -translate-y-1/2 cursor-pointer" />
-                        <input type={showPassword ? "text" : "password"} placeholder="Input your password" className="border border-primary/25 rounded-lg p-2 mt-2 focus:border-[#131313] focus:ring-1 focus:ring-[#131313]/10 outline-none transition-all duration-300 text-md text-black pl-8 pr-8 placeholder:text-black/35 w-full" />
+                        <input type={showPassword ? "text" : "password"} placeholder="Input your password" className="input-field border-primary/25 pl-8 pr-8" />
                     </div>
                 </div>
 

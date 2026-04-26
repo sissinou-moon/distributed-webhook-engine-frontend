@@ -16,6 +16,8 @@ export default function SignUn() {
     const [password, setPassword] = useState('')
     const [ip, setIP] = useState('')
     const [agent, setAgent] = useState('')
+    const [error, setError] = useState('')
+    const [canSubmit, setCanSubmit] = useState(false)
 
     useEffect(() => {
         fetch("/api/me")
@@ -28,8 +30,16 @@ export default function SignUn() {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        setError('')
+
         const res = await signup({ email, username, password, ip, agent });
-        console.log(res)
+
+        if (res['success']) {
+            console.log(res)
+        } else {
+            setError(res['message'])
+        }
         // redirect to OTP
     };
 
@@ -44,7 +54,7 @@ export default function SignUn() {
                     <label htmlFor="" className="text-[#131313]/60 text-sm">Username</label>
                     <div className="relative">
                         <Image src="/assets/User.png" alt="user" width={20} height={20} className="absolute left-2 top-[57%] -translate-y-1/2" />
-                        <input type="text" onChange={(value) => setUsername(value.target.value)} placeholder="Input your username" className="border border-primary/25 rounded-lg p-2 mt-2 focus:border-[#131313] focus:ring-1 focus:ring-[#131313]/10 outline-none transition-all duration-300 text-md text-black pl-8 placeholder:text-black/35 w-full" />
+                        <input type="text" onChange={(value) => setUsername(value.target.value)} placeholder="Input your username" className={`input-field pl-8 ${error !== '' ? 'border-error/70 ring-3 ring-error/10' : 'border-primary/25'}`} />
                     </div>
                 </div>
 
@@ -52,7 +62,7 @@ export default function SignUn() {
                     <label htmlFor="" className="text-[#131313]/60 text-sm">Email</label>
                     <div className="relative">
                         <Image src="/assets/letter.png" alt="letter" width={20} height={20} className="absolute left-2 top-[57%] -translate-y-1/2" />
-                        <input type="email" onChange={(value) => setEmail(value.target.value)} placeholder="Input your email" className="border border-primary/25 rounded-lg p-2 mt-2 focus:border-[#131313] focus:ring-1 focus:ring-[#131313]/10 outline-none transition-all duration-300 text-md text-black pl-8 placeholder:text-black/35 w-full" />
+                        <input type="email" onChange={(value) => setEmail(value.target.value)} placeholder="Input your email" className={`input-field pl-8 ${error !== '' ? 'border-error/70 ring-3 ring-error/10' : 'border-primary/25'}`} />
                     </div>
                 </div>
 
@@ -61,7 +71,7 @@ export default function SignUn() {
                     <div className="relative">
                         <Image src="/assets/Lock Keyhole.png" alt="lock" width={20} height={20} className="absolute left-2 top-[57%] -translate-y-1/2" />
                         <Image src={showPassword ? "/assets/Eye Closed.png" : "/assets/eye.png"} alt="eye" width={20} height={20} onClick={() => { setShowPassword(!showPassword) }} className="absolute right-2 top-[57%] -translate-y-1/2 cursor-pointer" />
-                        <input type={showPassword ? "text" : "password"} onChange={(value) => setPassword(value.target.value)} placeholder="Input your password" className="border border-primary/25 rounded-lg p-2 mt-2 focus:border-[#131313] focus:ring-1 focus:ring-[#131313]/10 outline-none transition-all duration-300 text-md text-black pl-8 pr-8 placeholder:text-black/35 w-full" />
+                        <input type={showPassword ? "text" : "password"} onChange={(value) => setPassword(value.target.value)} placeholder="Input your password" className={`input-field pl-8 pr-8 ${error !== '' ? 'border-error/70 ring-3 ring-error/10' : 'border-primary/25'}`} />
                     </div>
                 </div>
 
@@ -70,8 +80,16 @@ export default function SignUn() {
                 </div>
 
                 <div className="w-full">
-                    <button onClick={handleSubmit} className="bg-primary border border-primary w-full h-10 rounded-lg text-white font-semibold text-sm cursor-pointer shadow-[inset_6px_6px_10px_#565657] mt-10">Sign Un</button>
+                    <button disabled={!canSubmit} onClick={handleSubmit} className={`bg-primary border border-primary w-full h-10 rounded-lg text-white font-semibold text-sm shadow-[inset_6px_6px_10px_#565657] mt-10 ${!canSubmit ? 'cursor-not-allowed opacity-30' : 'cursor-pointer'}`}>Sign Un</button>
                 </div>
+
+                {
+                    error !== '' ? (
+                        <div className="flex w-full items-center justify-center">
+                            <p className="text-error/80 text-xs">{error}</p>
+                        </div>
+                    ) : null
+                }
 
                 <div className="flex justify-center items-center w-full mt-3">
                     <p className="text-primary/40 text-xs">Or Login With</p>
