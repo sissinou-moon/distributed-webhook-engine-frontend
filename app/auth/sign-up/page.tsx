@@ -37,11 +37,17 @@ export default function SignUn() {
 
         if (res['success']) {
             console.log(res)
+            router.push(`/auth/otp?email=${encodeURIComponent(email)}&user_id=${encodeURIComponent(res['metadata']['user_id'])}&username=${encodeURIComponent(username)}`)
         } else {
             setError(res['message'])
         }
-        // redirect to OTP
     };
+
+    useEffect(() => {
+        if (email !== '' && password !== '' && username !== '') {
+            setCanSubmit(true)
+        }
+    }, [email, password, username])
 
     return (
         <section className="flex h-screen w-screen items-center justify-center bg-[#F8F8F8] gap-15 px-5 ">
